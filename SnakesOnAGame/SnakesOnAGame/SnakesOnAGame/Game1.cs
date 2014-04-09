@@ -20,7 +20,7 @@ namespace SnakesOnAGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D snakeTexture;
-
+        Vector2 velocity = new Vector2(100, 100);
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -80,19 +80,23 @@ namespace SnakesOnAGame
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Up))
             {
-               
+                velocity.X = 0;
+                velocity.Y = -1;
             }
             if (kb.IsKeyDown(Keys.Down))
             {
-
+                velocity.X = 0;
+                velocity.Y = 1;
             }
             if (kb.IsKeyDown(Keys.Left))
             {
-
+                velocity.X = -1;
+                velocity.Y = 0;
             }
             if (kb.IsKeyDown(Keys.Right))
             {
-
+                velocity.X = 1;
+                velocity.Y = 0;
             }
 
         }
