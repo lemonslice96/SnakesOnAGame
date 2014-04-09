@@ -46,10 +46,11 @@ namespace SnakesOnAGame
         /// </summary>
         protected override void LoadContent()
         {
-            Snake.Add(new Vector2(40, 24));
+
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
             snakeTexture = Content.Load<Texture2D>("Snake");
+            Snake.Add(new Vector2(40, 24));
             // TODO: use this.Content to load your game content here
         }
 
@@ -81,6 +82,18 @@ namespace SnakesOnAGame
             {
                
             }
+            if (kb.IsKeyDown(Keys.Down))
+            {
+
+            }
+            if (kb.IsKeyDown(Keys.Left))
+            {
+
+            }
+            if (kb.IsKeyDown(Keys.Right))
+            {
+
+            }
 
         }
 
@@ -98,7 +111,7 @@ namespace SnakesOnAGame
 
             for (int i = 0; i < Snake.Count; i++)
             {
-                spriteBatch.Draw(snakeTexture, Snake[i] * 10, Color.White);
+                spriteBatch.Draw(snakeTexture, Snake[i] * 10, Color.Red);
             }
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
