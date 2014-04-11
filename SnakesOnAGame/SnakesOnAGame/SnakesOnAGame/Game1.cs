@@ -20,7 +20,12 @@ namespace SnakesOnAGame
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D snakeTexture;
-        Vector2 velocity = new Vector2(0, 1);
+        Texture2D pelletSquare;
+        Rectangle pellet;
+        Random rand = new Random();
+        Vector2 pellet = new Vector2(1, 2);
+        Vector2 location = new Vector2(1, 1);
+        Vector2 velocity = new Vector2(0, -1);
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -51,6 +56,7 @@ namespace SnakesOnAGame
             spriteBatch = new SpriteBatch(GraphicsDevice);
             snakeTexture = Content.Load<Texture2D>("Snake");
             Snake.Add(new Vector2(40, 24));
+            pellet
             // TODO: use this.Content to load your game content here
         }
 
@@ -80,25 +86,34 @@ namespace SnakesOnAGame
             KeyboardState kb = Keyboard.GetState();
             if (kb.IsKeyDown(Keys.Up))
             {
-                velocity = new Vector2(0, -1);
-                Snake[0] += velocity;
+                velocity.X = 0;
+                velocity.Y = -1;
+                
             }
             if (kb.IsKeyDown(Keys.Down))
             {
-                velocity = new Vector2(0, 1);
-                Snake[0] += velocity;
+                velocity.X = 0;
+                velocity.Y = 1;
+                
             }
             if (kb.IsKeyDown(Keys.Left))
             {
-                velocity = new Vector2(-1, 0);
-                Snake[0] += velocity;
+                velocity.X = -1;
+                velocity.Y = 0;
+                
             }
             if (kb.IsKeyDown(Keys.Right))
             {
-                velocity = new Vector2(1, 0);
-                Snake[0] += velocity;
+                velocity.X = 1;
+                velocity.Y = 0;
+                
             }
+            
+            Snake[0] += velocity;
+            if (Snake[0] == pellet)
+            {
 
+            }
         }
 
         /// <summary>
