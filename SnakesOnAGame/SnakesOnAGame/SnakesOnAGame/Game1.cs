@@ -26,7 +26,8 @@ namespace SnakesOnAGame
         Vector2 velocity = new Vector2(0, -1);
         Vector2 location = new Vector2(1, 1);
         float snakeMovementTimer = 0f;
-        float snakeMovementTime = 60f;
+        float snakeMovementTime = 50f;
+        int PlayerScore = 0;
 
         public Game1()
         {
@@ -83,28 +84,31 @@ namespace SnakesOnAGame
                 this.Exit();
 
             // TODO: Add your update logic here
-
+            if (snake[0].X < 0 || snake[0].X > 80 || snake[0].Y < 0 || snake[0].Y > 47)
+            {
+                this.Exit();
+            }
             base.Update(gameTime);
             KeyboardState kb = Keyboard.GetState();
-            if (kb.IsKeyDown(Keys.Up))
+            if (kb.IsKeyDown(Keys.Up) && velocity.Y != 1)
             {
                 velocity.X = 0;
                 velocity.Y = -1;
                 
             }
-            if (kb.IsKeyDown(Keys.Down))
+            if (kb.IsKeyDown(Keys.Down) && velocity.Y != -1)
             {
                 velocity.X = 0;
                 velocity.Y = 1;
                 
             }
-            if (kb.IsKeyDown(Keys.Left))
+            if (kb.IsKeyDown(Keys.Left) && velocity.X != 1)
             {
                 velocity.X = -1;
                 velocity.Y = 0;
                 
             }
-            if (kb.IsKeyDown(Keys.Right))
+            if (kb.IsKeyDown(Keys.Right) && velocity.X != -1)
             {
                 velocity.X = 1;
                 velocity.Y = 0;
@@ -115,9 +119,20 @@ namespace SnakesOnAGame
 
             if (snakeMovementTimer > snakeMovementTime)
             {
+                for (int i = snake.Count - 1; i > 0; i--)
+                {
+                    snake[i] = snake[i - 1];
+                }
                 snake[0] += velocity;
 
                 snakeMovementTimer = 0f;
+                for (int i = 1; i < snake.Count; i++)
+                {
+                    if (snake[0] == snake[i])
+                    {
+                        this.Exit();
+                    }
+                }
             }
 
             if (snake[0] == pellet)
@@ -125,7 +140,8 @@ namespace SnakesOnAGame
                 pellet.X = rand.Next(5, 35);
                 pellet.Y = rand.Next(5, 35);
                 snake.Add(new Vector2(snake[0].X, snake[0].Y));
-
+                PlayerScore++;
+                this.Window.Title = "Score : " + PlayerScore.ToString();
             }
         }
 
@@ -141,12 +157,12 @@ namespace SnakesOnAGame
             
             spriteBatch.Begin();
 
-            for (int i = 0; i < Snake.Count; i++)
+            for (int i = 0; i < snake.Count; i++)
             {
-                spriteBatch.Draw(snakeTexture, Snake[i] * 10, Color.Red);
-                spriteBatch.Draw(pelletTexture, pellet * 10, Color.Green);
+                spriteBatch.Draw(snakeTexture, snake[i] * 10, Color.MidnightBlue);
+                spriteBatch.Draw(pelletTexture, pellet * 10, Color.DarkTurquoise);
             }
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Orange);
 
             spriteBatch.End();
 
