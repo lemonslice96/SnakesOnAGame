@@ -16,16 +16,18 @@ namespace SnakesOnAGame
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
-        List<Vector2> Snake = new List<Vector2>();
+        List<Vector2> snake = new List<Vector2>();
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
         Texture2D snakeTexture;
-        Texture2D pelletSquare;
-        Rectangle pellet;
-        Random rand = new Random();
         Vector2 pellet = new Vector2(1, 2);
-        Vector2 location = new Vector2(1, 1);
+        Random rand = new Random();
+        Texture2D pelletTexture;
         Vector2 velocity = new Vector2(0, -1);
+        Vector2 location = new Vector2(1, 1);
+        float snakeMovementTimer = 0f;
+        float snakeMovementTime = 60f;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -54,9 +56,9 @@ namespace SnakesOnAGame
 
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            snakeTexture = Content.Load<Texture2D>("Snake");
-            Snake.Add(new Vector2(40, 24));
-            pellet
+            snakeTexture = Content.Load<Texture2D>(@"Snake");
+            pelletTexture = Content.Load<Texture2D>(@"PELLET");
+            snake.Add(new Vector2(40, 24));
             // TODO: use this.Content to load your game content here
         }
 
@@ -108,10 +110,21 @@ namespace SnakesOnAGame
                 velocity.Y = 0;
                 
             }
-            
-            Snake[0] += velocity;
-            if (Snake[0] == pellet)
+
+            snakeMovementTimer += (float)gameTime.ElapsedGameTime.Milliseconds;
+
+            if (snakeMovementTimer > snakeMovementTime)
             {
+                snake[0] += velocity;
+
+                snakeMovementTimer = 0f;
+            }
+
+            if (snake[0] == pellet)
+            {
+                pellet.X = rand.Next(5, 35);
+                pellet.Y = rand.Next(5, 35);
+                snake.Add(new Vector2(snake[0].X, snake[0].Y));
 
             }
         }
@@ -131,6 +144,7 @@ namespace SnakesOnAGame
             for (int i = 0; i < Snake.Count; i++)
             {
                 spriteBatch.Draw(snakeTexture, Snake[i] * 10, Color.Red);
+                spriteBatch.Draw(pelletTexture, pellet * 10, Color.Green);
             }
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
